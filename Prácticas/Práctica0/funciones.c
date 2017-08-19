@@ -1,14 +1,20 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #define TAM_ALFABETO 26
 #include "funciones.h"
 
 void cifrar (int alfa, int beta)
 {
-	int i, j;
+	int i, valor;
 	char * mensaje, * mensajeCifrado;
 	mensaje = leerMensaje ();										//Recibimos el mensaje a cifrar y lo guardamos en un arreglo
 	printf("%s\n", mensaje);										//Imprimimos el arreglo para saber que llego correctamente
+	for (i = 0; i < strlen (mensaje); i ++)
+	{
+		valor = obtenerValorLetra (mensaje [i]);					//Obtenemos el valor numerico de cada letra del mensaje
+		printf("%d\n", valor);
+	}
 }
 
 char * leerMensaje ()
@@ -37,6 +43,19 @@ char * leerMensaje ()
 	}
 	msj [i] = '\0';													//Marcamos el final del arreglo para no imprimir basura
 	return msj;														//Regresamos el archivo en un arreglo de caracteres
+}
+
+int obtenerValorLetra (char letra)
+{
+	int i;
+	char c;
+	for (i = 0; i < TAM_ALFABETO; i ++)
+	{
+		c = 'a' + i;												//Recorremos todo el alfabeto
+		if (c == letra)												//Si ya llegamos a la letra buscada, rompemos el ciclo
+			break;
+	}
+	return i;														//Regresamos el valor de la letra siendo la a = 0, b = 1, ... z = 25
 }
 
 
