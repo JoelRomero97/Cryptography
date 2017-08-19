@@ -13,6 +13,9 @@ void cifrar (int alfa, int beta)
 	for (i = 0; i < strlen (mensaje); i ++)
 	{
 		valor = obtenerValorLetra (mensaje [i]);					//Obtenemos el valor numerico de cada letra del mensaje
+		valor *= alfa;
+		valor += beta;
+		valor %= TAM_ALFABETO;
 		printf("%d\n", valor);
 	}
 }
