@@ -21,7 +21,7 @@ void cifrar (int alfa, int beta)
 	}
 	valores [i] = '\0';												//Le ponemos el fin del arreglo para no tener basura
 	mensajeCifrado = obtenerMsjCifrado (valores, mensaje);			//Obtenemos el mensaje cifrado
-	//escribirTextoCifrado (mensajeCifrado);							//Escribimos en el archivo el mensaje cifrado
+	escribirTextoCifrado (mensajeCifrado);							//Escribimos en el archivo el mensaje cifrado
 }
 
 char * leerMensaje ()
@@ -81,17 +81,18 @@ char * obtenerMsjCifrado (int * valores, char * mensaje)
 	return mensajeCifrado;
 }
 
+void escribirTextoCifrado (char * mensajeCifrado)
+{
+	FILE * textoCifrado;
+	textoCifrado = fopen ("c.txt", "w");
+	if (textoCifrado == NULL)
+		printf("Error al crear el archivo.\n");
+	fprintf(textoCifrado, "%s", mensajeCifrado);
+	printf("Archivo cifrado correctamente.\n");
+	fclose (textoCifrado);
+}
+
 void descifrar (int alfa, int beta)
 {
 	//
 }
-
-
-/*
-char c;
-	for (i = 0; i < TAM_ALFABETO; i ++)
-	{
-		c = 'a' + i;
-		printf("Letra %d: %c\n", i, c);
-	}
-*/
