@@ -6,18 +6,22 @@
 
 void cifrar (int alfa, int beta)
 {
-	int i, valor;
+	int i, valor, * valores;
 	char * mensaje, * mensajeCifrado;
 	mensaje = leerMensaje ();										//Recibimos el mensaje a cifrar y lo guardamos en un arreglo
-	printf("%s\n", mensaje);										//Imprimimos el arreglo para saber que llego correctamente
+	printf("\nMensaje: %s\n", mensaje);								//Imprimimos el arreglo para saber que llego correctamente
+	valores = (int *) malloc (sizeof (int) * strlen (mensaje));
 	for (i = 0; i < strlen (mensaje); i ++)
 	{
 		valor = obtenerValorLetra (mensaje [i]);					//Obtenemos el valor numerico de cada letra del mensaje
-		valor *= alfa;
-		valor += beta;
-		valor %= TAM_ALFABETO;
-		printf("%d\n", valor);
+		valor *= alfa;												//Multiplicamos por alfa
+		valor += beta;												//Le sumamos beta
+		valor %= TAM_ALFABETO;										//Sacamos el valor modulo el tamaño del alfabeto
+		valores [i] = valor;										//Guardamos ese valor en un arreglo
 	}
+	valores [i] = '\0';												//Le ponemos el fin del arreglo para no tener basura
+	mensajeCifrado = obtenerMsjCifrado (valores, mensaje);			//Obtenemos el mensaje cifrado
+	//escribirTextoCifrado (mensajeCifrado);							//Escribimos en el archivo el mensaje cifrado
 }
 
 char * leerMensaje ()
@@ -44,6 +48,7 @@ char * leerMensaje ()
 		}
 		c = fgetc (mensaje);
 	}
+	fclose (mensaje);												//Cerramos el archivo despues de leerlo
 	msj [i] = '\0';													//Marcamos el final del arreglo para no imprimir basura
 	return msj;														//Regresamos el archivo en un arreglo de caracteres
 }
@@ -52,6 +57,8 @@ int obtenerValorLetra (char letra)
 {
 	int i;
 	char c;
+	if (letra >= 'A' && letra <= 'Z')
+		letra += 32;												//Si es una mayuscula, la convertimos en minuscula para obtener valor
 	for (i = 0; i < TAM_ALFABETO; i ++)
 	{
 		c = 'a' + i;												//Recorremos todo el alfabeto
@@ -61,6 +68,18 @@ int obtenerValorLetra (char letra)
 	return i;														//Regresamos el valor de la letra siendo la a = 0, b = 1, ... z = 25
 }
 
+char * obtenerMsjCifrado (int * valores, char * mensaje)
+{
+	int i;
+	char c, * mensajeCifrado = (char *) malloc (sizeof (char));		//Para guardar el mensaje cifrado
+	for (i = 0; i < strlen (mensaje); i ++)
+	{
+		c = 'A' + valores [i];										//A la letra 'A' le sumamos el valor de la letra nueva
+		mensajeCifrado [i] = c;
+	}
+	mensajeCifrado [i] = '\0';
+	return mensajeCifrado;
+}
 
 void descifrar (int alfa, int beta)
 {
