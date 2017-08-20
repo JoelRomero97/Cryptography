@@ -45,8 +45,12 @@ char * leerMensaje ()
 			{
 				printf("Error, el archivo a cifrar debe contener unicamente letras minusculas.\n");
 				exit (0);
-			}else
+			}else if ((c >= 'a' && c <= 'z'))
 				msj [i ++] = c;										//Guardamos las letras minusculas en el arreglo
+			else
+			{
+				printf("Error, el archivo a cifrar debe contener unicamente letras minusculas.\n");
+			}
 		}
 		c = fgetc (mensaje);
 	}
@@ -82,7 +86,70 @@ void escribirTextoCifrado (char * mensajeCifrado)
 //FUNCIONES DE DESCIFRADO AFFINE
 void descifrar (int alfa, int beta)
 {
-	//
+	int i, valor, * valores;
+	char * mensajeCifrado, * mensajeDescifrado;
+	validarNumeros (alfa, beta);
+	mensajeCifrado = leerMensajeCifrado ();							//Recibimos el mensaje a descifrar y lo guardamos en un arreglo
+	printf("\nMensaje: %s\n", mensajeCifrado);						//Imprimimos el arreglo para saber que llego correctamente
+	valores = (int *) malloc (sizeof (int) * strlen (mensajeCifrado));
+	for (i = 0; i < strlen (mensajeCifrado); i ++)
+	{
+		valor = obtenerValorLetra (mensajeCifrado [i]);				//Obtenemos el valor numerico de cada letra del mensaje
+		valor *= ((TAM_ALFABETO + 1) / alfa);						//Encontramos el inverso multiplicativo de alfa
+		valor += (TAM_ALFABETO - beta);								//Encontramos el inverso aditivo de beta
+		valor %= TAM_ALFABETO;										//Sacamos el valor modulo el tamaño del alfabeto
+		valores [i] = valor;										//Guardamos ese valor en un arreglo
+	}
+	valores [i] = '\0';												//Le ponemos el fin del arreglo para no tener basura
+	mensajeDescifrado = DescifraMensaje (valores, mensajeCifrado);	//Obtenemos el mensaje cifrado
+	printf("El mensaje descifrado es:\n\n'%s'\n", mensajeDescifrado);
+}
+
+char * leerMensajeCifrado ()
+{
+	FILE * mensaje;													//Para leer el archivo a descifrar
+	char c, * msj = (char *) malloc (sizeof (char));				//Para guardar el mensaje y leer el archivo
+	int i = 0;														//Indice para guardar el mensaje
+	mensaje = fopen ("c.txt", "r");									//Abrimos el archivo 'c.txt' en modo lectura
+	if (mensaje == NULL)
+		printf("Error al abrir el archivo 'c.txt'.\n");
+	else
+		printf("Archivo 'c.txt' abierto.\n");
+	c = fgetc (mensaje);
+	while (c != EOF)												//Mientras no sea el final del archivo
+	{
+		if (c != 32 && c != '\n')									//Si es salto de linea o espacio, se lo quitamos
+		{
+			if ((c >= 'a' && c <= 'z') || (c >= '0' && c <= '9'))	//Si es numero o minuscula, terminamos el programa
+			{
+				printf("Error, el archivo a descifrar ha sido modificado.\n");
+				exit (0);
+			}else if ((c >= 'A' && c <= 'Z'))
+				msj [i ++] = c;										//Guardamos las letras mayusculas en el arreglo
+			else
+			{
+				printf("Error, el archivo a descifrar ha sido modificado.\n");
+				exit (0);
+			}
+		}
+		c = fgetc (mensaje);
+	}
+	fclose (mensaje);												//Cerramos el archivo despues de leerlo
+	msj [i] = '\0';													//Marcamos el final del arreglo para no imprimir basura
+	return msj;														//Regresamos el archivo en un arreglo de caracteres
+}
+
+char * DescifraMensaje (int * valores, char * mensajeCifrado)
+{
+	int i;
+	char c, * mensajeDescifrado = (char *) malloc (sizeof (char));	//Para guardar el mensaje cifrado
+	for (i = 0; i < strlen (mensajeCifrado); i ++)
+	{
+		c = 'a' + valores [i];										//A la letra 'A' le sumamos el valor de la letra nueva
+		mensajeDescifrado [i] = c;
+	}
+	mensajeDescifrado [i] = '\0';									//Ponemos un final al arreglo para evitar basura
+	return mensajeDescifrado;										//Regresamos el arreglo con el mensaje cifrado
 }
 
 //FUNCIONES COMPARTIDAS DE CIFRADO/DESCIFRADO AFFINE
@@ -107,7 +174,7 @@ void validarNumeros (int alfa, int beta)
 	{
 		if (beta == TAM_ALFABETO)
 		{
-			printf("Error, el texto no se va a cifrar por los valores de alfa = %d y beta = %d.\n", alfa, beta);
+			printf("Error, el texto no se va a cifrar/descifrar por los valores de alfa = %d y beta = %d.\n", alfa, beta);
 			exit (0);
 		}
 	}else if (alfa <= 0)
@@ -122,7 +189,7 @@ void validarNumeros (int alfa, int beta)
 	}
 	if (mcd (alfa, TAM_ALFABETO) != 1)
 	{
-		printf("Error, el texto no se va a cifrar correctamente debido al valor de alfa.\n");
+		printf("Error, el texto no se va a cifrar/descifrar correctamente debido al valor de alfa.\n");
 		exit (0);
 	}
 }

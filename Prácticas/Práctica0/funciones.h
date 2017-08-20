@@ -6,6 +6,8 @@ void escribirTextoCifrado (char * mensajeCifrado);
 
 //Funciones de descifrado
 void descifrar (int alfa, int beta);
+char * leerMensajeCifrado ();
+char * DescifraMensaje (int * valores, char * mensajeCifrado);
 
 //Funciones compartidas
 int obtenerValorLetra (char letra);
