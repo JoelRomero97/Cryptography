@@ -1,15 +1,14 @@
 //Funciones de cifrado
 void cifrar (int alfa, int beta);
 char * leerMensaje ();
-char * obtenerMsjCifrado (int * valores, char * mensaje);
 void escribirTextoCifrado (char * mensajeCifrado);
 
 //Funciones de descifrado
 void descifrar (int alfa, int beta);
 char * leerMensajeCifrado ();
-char * DescifraMensaje (int * valores, char * mensajeCifrado);
+int inversoMultiplicativo (int alfa);
 
 //Funciones compartidas
-int obtenerValorLetra (char letra);
+void menu ();
 void validarNumeros (int alfa, int beta);
 int mcd (int alfa, int alfabeto);
