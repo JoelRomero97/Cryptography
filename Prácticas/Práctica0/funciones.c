@@ -76,7 +76,6 @@ void descifrar (int alfa, int beta)
 	validarNumeros (alfa, beta);
 	int inverso;
 	inverso = inversoMultiplicativo (alfa);
-	printf("El inverso de %d es %d\n", alfa, inverso);
 	mensajeCifrado = leerMensajeCifrado ();							//Recibimos el mensaje a descifrar y lo guardamos en un arreglo
 	printf("\nMessage to decrypt: %s\n\n", mensajeCifrado);			//Imprimimos el arreglo para saber que llego correctamente
 	for (i = 0; i < strlen (mensajeCifrado); i ++)
