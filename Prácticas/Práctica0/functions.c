@@ -177,11 +177,16 @@ void validateNumbers (int alpha, int beta)
 int gcd (int alpha, int alphabet)									//Implementation of Euclides algorithm to obtain the greatest common divisor
 {
 	int temp;
-	while (alpha > 0)												//While alpha's value is bigger than zero
+	if (alpha > alphabet)
 	{
-         temp = alpha;
-         alpha = alphabet % alpha;									//We calculate the alphabet size module alpha
-         alphabet = temp;
-     }
-     return alphabet;
+		temp = alphabet;
+		alphabet = alpha;
+		alpha = temp;
+	}
+	if (alpha != 0)												//While alpha's value is bigger than zero
+	{
+        printf ("%d = (%d * %d) + %d\n", alphabet, alpha, alphabet / alpha, alphabet - (alphabet/alpha) * alpha);
+        gcd (alpha, alphabet % alpha);
+     }else
+     	return alphabet;
 }
