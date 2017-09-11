@@ -3,6 +3,8 @@
 #include <string.h>
 #include "Functions.h"
 
+
+
 FILE * open_file (char * original, char * encrypted, int tipo)
 {
 	FILE * pt1, * pt2;
@@ -122,14 +124,21 @@ void read_head (FILE * original, FILE * encrypted, bmp * image)
 	}
 }
 
-void encrypt_image (FILE * original, FILE * encrypted, bmp * image)
+void hill (FILE * original, FILE * encrypted, bmp * image, char option)
 {
 	int i, j;
-	unsigned char key [3][3] = 
+	llave key =														//We initialize the two matrixes of the struct
 	{
-		{126, 157, 27},
-		{206, 225, 202},
-		{171, 139, 27}
+		{
+			{1, 2, 3},
+			{4, 5, 6},
+			{11, 9, 8}
+		},
+		{
+			{126, 157, 27},
+			{206, 225, 202},
+			{171, 139, 27}
+		}
 	};
 	unsigned char red, blue, green, pixel [3];
 	for (i = 0; i < (image -> image_size); i ++)
@@ -139,18 +148,13 @@ void encrypt_image (FILE * original, FILE * encrypted, bmp * image)
 		fread (&green, sizeof (char), 1, original);
 		for (j = 0; j < 3; j ++)
 		{
-			pixel [j] = ((red * key [0][j]) + (green * key [1][j]) + (blue * key [2][j]));
+			if (option == 'd')				//D from decryption
+				pixel [j] = ((red * key.dk [0][j]) + (green * key.dk [1][j]) + (blue * key.dk [2][j]));
+			else
+				pixel [j] = ((red * key.ek [0][j]) + (green * key.ek [1][j]) + (blue * key.ek [2][j]));
 		}
 		fwrite (&pixel, sizeof (char), 3, encrypted);
 	}
-	
-	//PRUEBA ESCRIBIENDO TODO TAL CUAL
-	/*unsigned char x;
-	for (i = 0; i < (image -> image_size); i++)
-	{
-		fread (&x, sizeof (char), 1, original);
-		fwrite (&x, sizeof (char), 1, encrypted);
-	}*/
 	//We close each file
 	fclose (original);
 	fclose (encrypted);

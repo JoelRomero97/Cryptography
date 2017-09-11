@@ -6,7 +6,7 @@ int main (int argc, char* argv[])
 {	
 	FILE * original, * encrypted;
 	bmp image;
-	int i, lectura, escritura;
+	int i, option;
 	char * encryptedImage = (char *) malloc (sizeof (char));
 	char * originalImage = (char *) malloc (sizeof (char));
 	system ("cls");
@@ -17,6 +17,8 @@ int main (int argc, char* argv[])
 		originalImage = (char *) argv [1];
 		encryptedImage = (char *) argv [2];
 	}
+	printf("%cDo you want to encryp or decrypt?\n\n1.Encrypt\t2.Decrypt\n\n", 168);
+	scanf ("%d", &option);
 
 	//We open each file in binary mode
 	original = open_file (originalImage, encryptedImage, 1);
@@ -24,6 +26,9 @@ int main (int argc, char* argv[])
 
 	//We read and write the head of the file
 	read_head (original, encrypted, &image);
-	encrypt_image (original, encrypted, &image);
+	if (option == 1)
+		hill (original, encrypted, &image, 'd');
+	else if (option == 2)
+		hill (original, encrypted, &image, 'e');
 	exit (0);
 }
