@@ -8,6 +8,7 @@
 FILE * open_file (char * original, char * encrypted, int tipo)
 {
 	FILE * pt1, * pt2;
+	//We open the file in binary mode to read
 	pt1 = fopen (original, "rb");
 	if (pt1 == NULL)
 	{
@@ -15,7 +16,7 @@ FILE * open_file (char * original, char * encrypted, int tipo)
 		exit(0);
 	}
 	
-	//Abrimos el archivo a escribir en modo binario	
+	//We open the file in binary mode to write
 	pt2 = fopen (encrypted, "wb");
 	if (pt2 == NULL)
 	{
@@ -127,19 +128,6 @@ void read_head (FILE * original, FILE * encrypted, bmp * image)
 void hill (FILE * original, FILE * encrypted, bmp * image, char option)
 {
 	int i, j;
-	llave key =														//We initialize the two matrixes of the struct
-	{
-		{
-			{1, 2, 3},
-			{4, 5, 6},
-			{11, 9, 8}
-		},
-		{
-			{126, 157, 27},
-			{206, 225, 202},
-			{171, 139, 27}
-		}
-	};
 	unsigned char red, blue, green, pixel [3];
 	for (i = 0; i < (image -> image_size); i ++)
 	{

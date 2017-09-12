@@ -26,6 +26,20 @@ typedef struct llave
 	unsigned char dk [3][3];
 }llave;
 
+llave key =														//We initialize the two matrixes of the struct
+	{
+		{
+			{1, 2, 3},
+			{4, 5, 6},
+			{11, 9, 8}
+		},
+		{
+			{90, 167, 1},
+			{74, 179, 254},
+			{177, 81, 1}
+		}
+	};
+
 FILE * open_file (char * original, char * encrypted, int tipo);				//Function to open each file
 void read_head (FILE * original, FILE * encrypted, bmp * image);			//Function to read the head of the BMP image
 void hill (FILE * original, FILE * encrypted, bmp * image, char option);	//Función para crear una imagen BMP
