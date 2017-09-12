@@ -27,8 +27,8 @@ int main (int argc, char* argv[])
 	//We read and write the head of the file
 	read_head (original, encrypted, &image);
 	if (option == 1)
-		hill (original, encrypted, &image, 'd');
-	else if (option == 2)
 		hill (original, encrypted, &image, 'e');
+	else if (option == 2)
+		hill (original, encrypted, &image, 'd');
 	exit (0);
 }

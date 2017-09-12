@@ -131,17 +131,18 @@ void hill (FILE * original, FILE * encrypted, bmp * image, char option)
 	unsigned char red, blue, green, pixel [3];
 	for (i = 0; i < (image -> image_size); i ++)
 	{
-		fread (&red, sizeof (char), 1, original);
 		fread (&blue, sizeof (char), 1, original);
 		fread (&green, sizeof (char), 1, original);
+		fread (&red, sizeof (char), 1, original);
 		for (j = 0; j < 3; j ++)
 		{
 			if (option == 'd')				//D from decryption
-				pixel [j] = ((red * key.dk [0][j]) + (green * key.dk [1][j]) + (blue * key.dk [2][j]));
+				pixel [j] = ((blue * key.Dk [0][j]) + (green * key.Dk [1][j]) + (red * key.Dk [2][j])) % 256;
 			else
-				pixel [j] = ((red * key.ek [0][j]) + (green * key.ek [1][j]) + (blue * key.ek [2][j]));
+				pixel [j] = ((blue * key.Ek [0][j]) + (green * key.Ek [1][j]) + (red * key.Ek [2][j])) % 256;
 		}
 		fwrite (&pixel, sizeof (char), 3, encrypted);
+		memset (pixel, 0, 3);
 	}
 	//We close each file
 	fclose (original);

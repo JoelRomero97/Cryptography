@@ -22,8 +22,8 @@ typedef struct BMP
 
 typedef struct llave
 {
-	unsigned char ek [3][3];
-	unsigned char dk [3][3];
+	unsigned char Ek [3][3];
+	unsigned char Dk [3][3];
 }llave;
 
 llave key =														//We initialize the two matrixes of the struct
