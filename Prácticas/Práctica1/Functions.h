@@ -40,13 +40,6 @@ llave key =														//We initialize the two matrixes of the struct
 		}
 	};
 
-FILE * open_file (char * original, char * encrypted, int type);
-void read_head (FILE * original, FILE * encrypted, bmp * image);
-int selected_mode ();
-void operation_mode (FILE * original, FILE * encrypted, bmp * image, char option);
-void ECB (FILE * original, FILE * encrypted, bmp * image, char option);
-void CBC (FILE * original, FILE * encrypted, bmp * image, char option);
-void CFB (FILE * original, FILE * encrypted, bmp * image, char option);
-void OFB (FILE * original, FILE * encrypted, bmp * image, char option);
-void CTR (FILE * original, FILE * encrypted, bmp * image, char option);
-void hill (FILE * original, FILE * encrypted, bmp * image, char option);
+FILE * open_file (char * original, char * encrypted, int tipo);				//Function to open each file
+void read_head (FILE * original, FILE * encrypted, bmp * image);			//Function to read the head of the BMP image
+void hill (FILE * original, FILE * encrypted, bmp * image, char option);	//Función para crear una imagen BMP
