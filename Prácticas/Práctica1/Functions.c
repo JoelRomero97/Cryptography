@@ -3,6 +3,7 @@
 #include <string.h>
 #include "Functions.h"
 
+int i;
 
 //It opens both files, and depending on the flag "type", it returns each pointer to file
 FILE * open_file (char * original, char * encrypted, int type)
@@ -151,42 +152,47 @@ void operation_mode (FILE * original, FILE * encrypted, bmp * image, char option
 			ECB (original, encrypted, image, option);
 			break;
 		case 2:
-			CBC (original, encrypted, image, option);
+			//CBC (original, encrypted, image, option);
 			break;
 		case 3:
-			CFB (original, encrypted, image, option);
+			//CFB (original, encrypted, image, option);
 			break;
 		case 4:
-			OFB (original, encrypted, image, option);
+			//OFB (original, encrypted, image, option);
 			break;
 		case 5:
-			CTR (original, encrypted, image, option);
+			//CTR (original, encrypted, image, option);
 			break;
 		default:
 			operation_mode (original, encrypted, image, option);
 	}
 }
 
-void hill (FILE * original, FILE * encrypted, bmp * image, char option)
+void ECB (FILE * original, FILE * encrypted, bmp * image, char option)
 {
-	int i, j;
-	unsigned char red, blue, green, pixel [3];
+	unsigned char BGR [3], pixel [3];
+	//unsigned char * pixel = (char *) malloc (sizeof (char) * 3);
 	for (i = 0; i < (image -> image_size); i ++)
 	{
-		fread (&blue, sizeof (char), 1, original);
-		fread (&green, sizeof (char), 1, original);
-		fread (&red, sizeof (char), 1, original);
-		for (j = 0; j < 3; j ++)
-		{
-			if (option == 'd')				//D from decryption
-				pixel [j] = ((blue * key.Dk [0][j]) + (green * key.Dk [1][j]) + (red * key.Dk [2][j])) % 256;
-			else
-				pixel [j] = ((blue * key.Ek [0][j]) + (green * key.Ek [1][j]) + (red * key.Ek [2][j])) % 256;
-		}
-		fwrite (&pixel, sizeof (char), 3, encrypted);
-		memset (pixel, 0, 3);
+		fread (&BGR, sizeof (unsigned char), 3, original);
+		hill (BGR, option, &pixel);
+		//printf("%d\t%d\t%d\n\n", pixel [0], pixel [1], pixel [2]);
+		//getchar ();
+		fwrite (&pixel, sizeof (unsigned char), 3, encrypted);
 	}
-	//We close each file
-	fclose (original);
-	fclose (encrypted);
+}
+
+void hill (unsigned char * BGR, char option, unsigned char * pixel)
+{
+	//unsigned char * pixel = (char *) malloc (sizeof (char) * 3);
+	//unsigned char pixel [3];
+	memset (pixel, 0, 3);
+	for (i = 0; i < 3; i ++)
+	{
+		if (option == 'd')				//D from decryption
+			pixel [i] = ((BGR [0] * key.Dk [0][i]) + (BGR [1] * key.Dk [1][i]) + (BGR [2] * key.Dk [2][i])) % 256;
+		else
+			pixel [i] = ((BGR [0] * key.Ek [0][i]) + (BGR [1] * key.Ek [1][i]) + (BGR [2] * key.Ek [2][i])) % 256;
+	}
+	return;
 }

@@ -49,4 +49,4 @@ void CBC (FILE * original, FILE * encrypted, bmp * image, char option);
 void CFB (FILE * original, FILE * encrypted, bmp * image, char option);
 void OFB (FILE * original, FILE * encrypted, bmp * image, char option);
 void CTR (FILE * original, FILE * encrypted, bmp * image, char option);
-void hill (FILE * original, FILE * encrypted, bmp * image, char option);
+void hill (unsigned char * BGR, char option, unsigned char * pixel);

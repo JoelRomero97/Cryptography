@@ -12,7 +12,7 @@ void encrypt (int alpha, int beta)
 	char * message, * ciphertext = (char *) malloc (sizeof (char));
 	validateNumbers (alpha, beta);
 	message = readMessage ();										//Receiving the message to encrypt and save it in a dinamic array
-	printf("\nMesage to encrypt: %s\n\n", message);					//Print the message to know it is correct
+	printf("\nMessage to encrypt: %s\n\n", message);				//Print the message to know it is correct
 	for (i = 0; i < strlen (message); i ++)
 	{
 		value = message [i] - 97; 
@@ -71,8 +71,7 @@ void decrypt (int alpha, int beta)
 {
 	char * ciphertext, * plainText = (char *) malloc (sizeof (char));
 	validateNumbers (alpha, beta);
-	int inverse;
-	inverse = multiplicativeInverse (alpha);						//Obtain the multiplicative inverse for alpha
+	int inverse = multiplicativeInverse (alpha);						//Obtain the multiplicative inverse for alpha
 	ciphertext = readCiphertext ();									//Receiving the message to decrypt and save it in a dinamic array
 	printf("\nMessage to decrypt: %s\n\n", ciphertext);				//Print the message to know it is correct
 	for (i = 0; i < strlen (ciphertext); i ++)
@@ -117,15 +116,29 @@ char * readCiphertext ()
 	return msgToDecrypt;											//Return the encrypted message to decrypt from file
 }
 
+/*int multiplicativeInverse (int alpha)
+{
+	int x, inverse;
+	printf("\n\nMultiplicative Inverse:\n\n");
+	for(inverse = 0; inverse < ALPHABET_SIZE; inverse++)
+    {
+        x = (alpha * inverse) % ALPHABET_SIZE;
+        //printf("1 = %d - (%d * %d)\n", alpha, (ALPHABET_SIZE/alpha), inverse);
+        if(x == 1)
+            return inverse;
+    }
+}*/
+
 int multiplicativeInverse (int alpha)
 {
-	int j, flag = 0;
-	for (i = 1; i < ALPHABET_SIZE; i ++)							//We go through all possible combinations from 1 to alphabet's size
-		for (j = 1; j < ALPHABET_SIZE; j ++, j++)					//We discard pair numbers from the search
-		{
-			if (((ALPHABET_SIZE * i) + 1) == (alpha * j))			//If this operation is correct...
-				return j;											//We return the value of j
-		}
+	int x, inverse;
+	printf("\n\nMultiplicative Inverse:\n\n");
+	for(inverse = 0; inverse < ALPHABET_SIZE; inverse++)
+    {
+        x = (alpha * inverse) % ALPHABET_SIZE;
+        if(x == 1)
+            return inverse;
+    }
 }
 
 //SHARED ENCRYPTION/DECRYPTION FUNCTIONS
@@ -140,6 +153,7 @@ void menu ()
 	scanf ("%d", &alpha);
 	printf("\nBeta's value: ");
 	scanf ("%d", &beta);
+	system ("cls");
 	if (option == 1)
 		encrypt (alpha, beta);										//If option 1, we encrypt the message
 	else if (option == 2)
@@ -176,7 +190,7 @@ void validateNumbers (int alpha, int beta)
 
 int gcd (int alpha, int alphabet)									//Implementation of Euclides algorithm to obtain the greatest common divisor
 {
-	int temp;
+	int temp, inverse, x;
 	if (alpha > alphabet)
 	{
 		temp = alphabet;
@@ -187,6 +201,8 @@ int gcd (int alpha, int alphabet)									//Implementation of Euclides algorithm
 	{
         printf ("%d = (%d * %d) + %d\n", alphabet, alpha, alphabet / alpha, alphabet - (alphabet/alpha) * alpha);
         gcd (alpha, alphabet % alpha);
-     }else
+    }else
+    {
      	return alphabet;
+    }
 }

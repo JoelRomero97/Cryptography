@@ -12,3 +12,4 @@ int multiplicativeInverse (int alpha);
 void menu ();
 void validateNumbers (int alpha, int beta);
 int gcd (int alpha, int alphabet);
+int alg_euc_ext(int n1,int n2);
