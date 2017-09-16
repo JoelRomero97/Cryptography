@@ -5,6 +5,7 @@
 
 int i, j;														//Global variables for loops
 unsigned char BGR [3], pixel [3];								//Arrays for reading and writing bmp images
+char action [10];
 
 FILE * open_file (char * original, char * encrypted, int tipo)
 {
@@ -41,77 +42,62 @@ void read_head (FILE * original, FILE * encrypted, bmp * image)
 	//Type (must be 'BM')
 	fread (&image -> type, sizeof (char), 2, original);
 	fwrite (&image -> type, sizeof (char), 2, encrypted);
-	printf ("\n\nType: %s\n", image -> type);
 
 	//Size of the file
 	fread (&image -> file_size, sizeof (int), 1, original);
 	fwrite (&image -> file_size, sizeof (int), 1, encrypted);
-	printf ("Size of the file: %d\n", image -> file_size);
 
 	//Reserved bytes
 	fread (&image -> reserved, sizeof (int), 1, original);
 	fwrite (&image -> reserved, sizeof (int), 1, encrypted);
-	printf ("Reserved: %d\n", image -> reserved);
 
 	//Offset
 	fread (&image -> offset, sizeof (int), 1, original);
 	fwrite (&image -> offset, sizeof (int), 1, encrypted);
-	printf ("Offset: %d\n", image -> offset);
 
 	//Size of the bitmap
 	fread (&image -> bitmap_size, sizeof (int), 1, original);
 	fwrite (&image -> bitmap_size, sizeof (int), 1, encrypted);
-	printf ("Size of bitmap: %d\n", image -> bitmap_size);
 
 	//Width
 	fread (&image -> width, sizeof (int), 1, original);
 	fwrite (&image -> width, sizeof (int), 1, encrypted);
-	printf ("Width: %d\n", image -> width);
 
 	//Height
 	fread (&image -> height, sizeof (int), 1, original);
 	fwrite (&image -> height, sizeof (int), 1, encrypted);
-	printf ("Height: %d\n", image -> height);
 
 	//Number of planes
 	fread (&image -> no_planes, sizeof (short),1, original);
 	fwrite (&image -> no_planes, sizeof (short),1, encrypted);
-	printf("Number of planes: %d\n", image -> no_planes);
 
 	//Bits per pixel
 	fread (&image -> bits_per_pixel, sizeof (short),1, original);
 	fwrite (&image -> bits_per_pixel, sizeof (short),1, encrypted);
-	printf ("Bits per pixel: %d\n", image -> bits_per_pixel);
 
 	//Type of compression (must be 0)
 	fread (&image -> compression, sizeof (int), 1, original);
 	fwrite (&image -> compression, sizeof (int), 1, encrypted);
-	printf ("compression: %d\n", image -> compression);
 
 	//Size of the image
 	fread (&image -> image_size, sizeof (int), 1, original);
 	fwrite (&image -> image_size, sizeof (int), 1, encrypted);
-	printf ("Size of image: %d\n", image -> image_size);
 
 	//Horizontal resolution
 	fread (&image -> horizontal_res, sizeof (int), 1, original);
 	fwrite (&image -> horizontal_res, sizeof (int), 1, encrypted);
-	printf ("Horizontal resolution: %d\n", image -> horizontal_res);
 
 	//Vertical resolution
 	fread (&image -> vertical_res, sizeof (int), 1, original);
 	fwrite (&image -> vertical_res, sizeof (int), 1, encrypted);
-	printf ("Vertical resolution: %d\n", image -> vertical_res);
 
 	//Number of colors
 	fread (&image -> no_colors, sizeof (int), 1, original);
 	fwrite (&image -> no_colors, sizeof (int), 1, encrypted);
-	printf ("Number of colors: %d\n", image -> no_colors);
 
 	//Number of important colors
 	fread (&image -> important_colors, sizeof (int), 1, original);
 	fwrite (&image -> important_colors, sizeof (int), 1, encrypted);
-	printf ("Number of important colors: %d\n", image -> important_colors);
 
 	//We check if the selected file is a bitmap
 	if (image -> type [0] != 'B' || image -> type [1] != 'M')	
@@ -128,6 +114,53 @@ void read_head (FILE * original, FILE * encrypted, bmp * image)
 
 void operation_mode (FILE * original, FILE * encrypted, bmp * image, char option)
 {
+	int selected_mode = 3;
+	if (option == 'e')
+		strcpy (action, "encrypted");
+	else
+		strcpy (action, "decrypted");
+	printf("\n\n%cWhich mode of operation do you want to use?\n\n", 168);
+	printf("1. Electronic Codebook (ECB).\n");
+	printf("2. Cipher Block Chaining (CBC)\n");
+	printf("3. Cipher Feedback (CFB)\n");
+	printf("4. Output Feedback (OFB)\n");
+	printf("5. Counter (CTR)\n\n");
+	scanf ("%d", &selected_mode);
+	system ("cls");
+	print_head (image);
+	if (selected_mode == 1)
+		ECB (original, encrypted, image, option);
+	else if (selected_mode == 2)
+		CBC (original, encrypted, image, option);
+	else if (selected_mode == 3)
+		CFB (original, encrypted, image, option);
+	else if (selected_mode == 4)
+		OFB (original, encrypted, image, option);
+	else
+		CTR (original, encrypted, image, option);
+}
+
+void print_head (bmp * image)
+{
+	printf ("\n\nType: %s\n", image -> type);
+	printf ("Size of the file: %d\n", image -> file_size);
+	printf ("Reserved: %d\n", image -> reserved);
+	printf ("Offset: %d\n", image -> offset);
+	printf ("Size of bitmap: %d\n", image -> bitmap_size);
+	printf ("Width: %d\n", image -> width);
+	printf ("Height: %d\n", image -> height);
+	printf("Number of planes: %d\n", image -> no_planes);
+	printf ("Bits per pixel: %d\n", image -> bits_per_pixel);
+	printf ("compression: %d\n", image -> compression);
+	printf ("Size of image: %d\n", image -> image_size);
+	printf ("Horizontal resolution: %d\n", image -> horizontal_res);
+	printf ("Vertical resolution: %d\n", image -> vertical_res);
+	printf ("Number of colors: %d\n", image -> no_colors);
+	printf ("Number of important colors: %d\n", image -> important_colors);
+}
+
+void ECB (FILE * original, FILE * encrypted, bmp * image, char option)
+{
 	for (i = 0; i < (image -> image_size); i ++)
 	{
 		fread (&BGR, sizeof (char), 3, original);
@@ -135,6 +168,27 @@ void operation_mode (FILE * original, FILE * encrypted, bmp * image, char option
 		fwrite (&pixel, sizeof (char), 3, encrypted);
 		memset (pixel, 0, 3);
 	}
+	printf ("\n\n\nThe image was %s correctly.\n\n", action);
+}
+
+void CBC (FILE * original, FILE * encrypted, bmp * image, char option)
+{
+	//
+}
+
+void CFB (FILE * original, FILE * encrypted, bmp * image, char option)
+{
+	//
+}
+
+void OFB (FILE * original, FILE * encrypted, bmp * image, char option)
+{
+	//
+}
+
+void CTR (FILE * original, FILE * encrypted, bmp * image, char option)
+{
+	//
 }
 
 void hill (unsigned char * BGR, unsigned char * pixel, char option)

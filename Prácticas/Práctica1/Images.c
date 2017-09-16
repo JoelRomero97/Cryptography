@@ -17,7 +17,7 @@ int main (int argc, char* argv[])
 		originalImage = (char *) argv [1];
 		encryptedImage = (char *) argv [2];
 	}
-	printf("%cDo you want to encryp or decrypt?\n\n1.Encrypt\t2.Decrypt\n\n", 168);
+	printf("\n\n%cDo you want to encryp or decrypt?\n\n1.Encrypt\t2.Decrypt\n\n", 168);
 	scanf ("%d", &option);
 
 	//We open each file in binary mode
