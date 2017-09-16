@@ -5,7 +5,7 @@
 
 int i, j;														//Global variables for loops
 unsigned char BGR [3], pixel [3];								//Arrays for reading and writing bmp images
-char action [10];
+char action [9];
 
 FILE * open_file (char * original, char * encrypted, int tipo)
 {
