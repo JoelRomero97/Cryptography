@@ -27,8 +27,16 @@ int main (int argc, char* argv[])
 	//We read and write the head of the file
 	read_head (original, encrypted, &image);
 	if (option == 1)
+<<<<<<< HEAD
 		hill (original, encrypted, &image, 'e');
 	else if (option == 2)
 		hill (original, encrypted, &image, 'd');
+=======
+		operation_mode (original, encrypted, &image, 'e');
+		//hill (original, encrypted, &image, 'e');
+	else if (option == 2)
+		operation_mode (original, encrypted, &image, 'd');
+		//hill (original, encrypted, &image, 'd');
+>>>>>>> NuevaPractica
 	exit (0);
 }
