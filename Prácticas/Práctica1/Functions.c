@@ -112,60 +112,7 @@ void read_head (FILE * original, FILE * encrypted, bmp * image)
 	}
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-void hill (FILE * original, FILE * encrypted, bmp * image, char option)
-=======
-//A simple menu to know the operation mode that user wants to use
-int selected_mode ()
-{
-	int selected_option;
-	printf("\n\n%cWhich mode of operation do you want to use?\n\n", 168);
-	printf("1. Electronic Codebook (ECB)\n");
-	printf("2. Cipher Block Chaining (CBC)\n");
-	printf("3. Cipher Feedback (CFB)\n");
-	printf("4. Output Feedback (OFB)\n");
-	printf("5. Counter (CTR)\n\n");
-	scanf ("%d", &selected_option);
-	return selected_option;
-}
-
-//It calls each operation mode depending on the selected one that we obtain from function "selected_mode"
 void operation_mode (FILE * original, FILE * encrypted, bmp * image, char option)
-{
-	int selected_option;
-	selected_option = selected_mode ();
-	switch (selected_option)
-	{
-		case 1:
-			ECB (original, encrypted, image, option);
-			break;
-		case 2:
-			//CBC (original, encrypted, image, option);
-			break;
-		case 3:
-			//CFB (original, encrypted, image, option);
-			break;
-		case 4:
-			//OFB (original, encrypted, image, option);
-			break;
-		case 5:
-			//CTR (original, encrypted, image, option);
-			break;
-		default:
-			operation_mode (original, encrypted, image, option);
-	}
-}
-
-void ECB (FILE * original, FILE * encrypted, bmp * image, char option)
->>>>>>> NuevaPractica
-=======
-void hill (FILE * original, FILE * encrypted, bmp * image, char option)
->>>>>>> NuevaPractica
-=======
-void operation_mode (FILE * original, FILE * encrypted, bmp * image, char option)
->>>>>>> NuevaPractica
 {
 	int selected_mode = 3;
 	if (option == 'e')
