@@ -3,7 +3,6 @@
 #include <string.h>
 #include "Functions.h"
 
-int i;
 
 
 FILE * open_file (char * original, char * encrypted, int tipo)
@@ -127,6 +126,7 @@ void read_head (FILE * original, FILE * encrypted, bmp * image)
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 void hill (FILE * original, FILE * encrypted, bmp * image, char option)
 =======
 //A simple menu to know the operation mode that user wants to use
@@ -172,30 +172,28 @@ void operation_mode (FILE * original, FILE * encrypted, bmp * image, char option
 
 void ECB (FILE * original, FILE * encrypted, bmp * image, char option)
 >>>>>>> NuevaPractica
+=======
+void hill (FILE * original, FILE * encrypted, bmp * image, char option)
+>>>>>>> NuevaPractica
 {
-	unsigned char BGR [3], pixel [3];
-	//unsigned char * pixel = (char *) malloc (sizeof (char) * 3);
+	int i, j;
+	unsigned char red, blue, green, pixel [3];
 	for (i = 0; i < (image -> image_size); i ++)
 	{
-		fread (&BGR, sizeof (unsigned char), 3, original);
-		hill (BGR, option, &pixel);
-		//printf("%d\t%d\t%d\n\n", pixel [0], pixel [1], pixel [2]);
-		//getchar ();
-		fwrite (&pixel, sizeof (unsigned char), 3, encrypted);
+		fread (&blue, sizeof (char), 1, original);
+		fread (&green, sizeof (char), 1, original);
+		fread (&red, sizeof (char), 1, original);
+		for (j = 0; j < 3; j ++)
+		{
+			if (option == 'd')				//D from decryption
+				pixel [j] = ((blue * key.Dk [0][j]) + (green * key.Dk [1][j]) + (red * key.Dk [2][j])) % 256;
+			else
+				pixel [j] = ((blue * key.Ek [0][j]) + (green * key.Ek [1][j]) + (red * key.Ek [2][j])) % 256;
+		}
+		fwrite (&pixel, sizeof (char), 3, encrypted);
+		memset (pixel, 0, 3);
 	}
-}
-
-void hill (unsigned char * BGR, char option, unsigned char * pixel)
-{
-	//unsigned char * pixel = (char *) malloc (sizeof (char) * 3);
-	//unsigned char pixel [3];
-	memset (pixel, 0, 3);
-	for (i = 0; i < 3; i ++)
-	{
-		if (option == 'd')				//D from decryption
-			pixel [i] = ((BGR [0] * key.Dk [0][i]) + (BGR [1] * key.Dk [1][i]) + (BGR [2] * key.Dk [2][i])) % 256;
-		else
-			pixel [i] = ((BGR [0] * key.Ek [0][i]) + (BGR [1] * key.Ek [1][i]) + (BGR [2] * key.Ek [2][i])) % 256;
-	}
-	return;
+	//We close each file
+	fclose (original);
+	fclose (encrypted);
 }

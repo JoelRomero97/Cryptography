@@ -28,6 +28,7 @@ int main (int argc, char* argv[])
 	read_head (original, encrypted, &image);
 	if (option == 1)
 <<<<<<< HEAD
+<<<<<<< HEAD
 		hill (original, encrypted, &image, 'e');
 	else if (option == 2)
 		hill (original, encrypted, &image, 'd');
@@ -37,6 +38,11 @@ int main (int argc, char* argv[])
 	else if (option == 2)
 		operation_mode (original, encrypted, &image, 'd');
 		//hill (original, encrypted, &image, 'd');
+>>>>>>> NuevaPractica
+=======
+		hill (original, encrypted, &image, 'e');
+	else if (option == 2)
+		hill (original, encrypted, &image, 'd');
 >>>>>>> NuevaPractica
 	exit (0);
 }
