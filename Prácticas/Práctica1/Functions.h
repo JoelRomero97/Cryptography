@@ -44,6 +44,7 @@ llave key =														//We initialize the two matrixes of the struct
 <<<<<<< HEAD
 FILE * open_file (char * original, char * encrypted, int tipo);				//Function to open each file
 void read_head (FILE * original, FILE * encrypted, bmp * image);			//Function to read the head of the BMP image
+<<<<<<< HEAD
 void hill (FILE * original, FILE * encrypted, bmp * image, char option);	//Función para crear una imagen BMP
 =======
 FILE * open_file (char * original, char * encrypted, int type);
@@ -61,4 +62,8 @@ void hill (unsigned char * BGR, char option, unsigned char * pixel);
 FILE * open_file (char * original, char * encrypted, int tipo);				//Function to open each file
 void read_head (FILE * original, FILE * encrypted, bmp * image);			//Function to read the head of the BMP image
 void hill (FILE * original, FILE * encrypted, bmp * image, char option);	//Función para crear una imagen BMP
+>>>>>>> NuevaPractica
+=======
+void hill (unsigned char * BGR, unsigned char * pixel, char option);	//Función para crear una imagen BMP
+void operation_mode (FILE * original, FILE * encrypted, bmp * image, char option);
 >>>>>>> NuevaPractica
