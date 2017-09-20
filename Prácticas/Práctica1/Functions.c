@@ -5,7 +5,6 @@
 
 int i, j;														//Global variables for loops
 unsigned char BGR [3], pixel [3];								//Arrays for reading and writing bmp images
-char action [9];
 
 FILE * open_file (char * original, char * encrypted, int tipo)
 {
@@ -115,10 +114,6 @@ void read_head (FILE * original, FILE * encrypted, bmp * image)
 void operation_mode (FILE * original, FILE * encrypted, bmp * image, char option)
 {
 	int selected_mode = 3;
-	if (option == 'e')
-		strcpy (action, "encrypted");
-	else
-		strcpy (action, "decrypted");
 	printf("\n\n%cWhich mode of operation do you want to use?\n\n", 168);
 	printf("1. Electronic Codebook (ECB).\n");
 	printf("2. Cipher Block Chaining (CBC)\n");
@@ -159,21 +154,52 @@ void print_head (bmp * image)
 	printf ("Number of important colors: %d\n", image -> important_colors);
 }
 
+char * message (char option)
+{
+	if (option == 'e')
+		return "encrypted";
+	else
+		return "decrypted";
+}
+
 void ECB (FILE * original, FILE * encrypted, bmp * image, char option)
 {
 	for (i = 0; i < (image -> image_size); i ++)
 	{
 		fread (&BGR, sizeof (char), 3, original);
+		/*
+		DESCOMENTAR ESTA PARTE PARA QUE QUEDE EXACTAMENTE IGUAL QUE EN EL CUADERNO YA QUE LOS COLORES DE PIXELES LLEGAN B,G,R Y NO R,G,B
+		x = BGR [0];
+		BGR [0] = BGR [2];
+		BGR [2] = x;
+		*/
 		hill ((unsigned char * ) BGR, (unsigned char * ) pixel, option);
 		fwrite (&pixel, sizeof (char), 3, encrypted);
 		memset (pixel, 0, 3);
 	}
-	printf ("\n\n\nThe image was %s correctly.\n\n", action);
+	printf ("\n\n\nThe image was %s correctly.\n\n", message (option));
 }
 
 void CBC (FILE * original, FILE * encrypted, bmp * image, char option)
 {
-	//
+	unsigned char x;
+	printf ("\n\nIntroduce the initialization vector separated by spaces:\t");
+	scanf ("%u %u %u", &pixel [0], &pixel [1], &pixel [2]);
+	for (i = 0; i < (image -> image_size); i ++)
+	{
+		fread (&BGR, sizeof (char), 3, original);
+		/*
+		DESCOMENTAR ESTA PARTE PARA QUE QUEDE EXACTAMENTE IGUAL QUE EN EL CUADERNO YA QUE LOS COLORES DE PIXELES LLEGAN B,G,R Y NO R,G,B
+		x = BGR [0];
+		BGR [0] = BGR [2];
+		BGR [2] = x;
+		*/
+		for (j = 0; j < 3; j ++)
+			BGR [j] = (pixel [j] ^ BGR [j]);								//We realize XOR between pixel and BGR from Image
+		hill ((unsigned char * ) BGR, (unsigned char * ) pixel, option);
+		fwrite (&pixel, sizeof (char), 3, encrypted);
+	}
+	printf ("\n\n\nThe image was %s correctly.\n\n", message (option));
 }
 
 void CFB (FILE * original, FILE * encrypted, bmp * image, char option)

@@ -45,6 +45,7 @@ void read_head (FILE * original, FILE * encrypted, bmp * image);
 void hill (unsigned char * BGR, unsigned char * pixel, char option);
 void operation_mode (FILE * original, FILE * encrypted, bmp * image, char option);
 void print_head (bmp * image);
+char * message (char option);
 void ECB (FILE * original, FILE * encrypted, bmp * image, char option);
 void CBC (FILE * original, FILE * encrypted, bmp * image, char option);
 void CFB (FILE * original, FILE * encrypted, bmp * image, char option);
