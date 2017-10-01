@@ -4,7 +4,7 @@
 #include "Functions.h"
 
 int i, j;														//Global variables for loops
-unsigned char BGR [3], pixel [3];								//Arrays for reading and writing bmp images
+unsigned char BGR [3], pixel [3], x;							//Arrays for reading and writing bmp images
 
 FILE * open_file (char * original, char * encrypted, int tipo)
 {
@@ -144,7 +144,7 @@ void print_head (bmp * image)
 	printf ("Size of bitmap: %d\n", image -> bitmap_size);
 	printf ("Width: %d\n", image -> width);
 	printf ("Height: %d\n", image -> height);
-	printf("Number of planes: %d\n", image -> no_planes);
+	printf ("Number of planes: %d\n", image -> no_planes);
 	printf ("Bits per pixel: %d\n", image -> bits_per_pixel);
 	printf ("compression: %d\n", image -> compression);
 	printf ("Size of image: %d\n", image -> image_size);
@@ -182,7 +182,6 @@ void ECB (FILE * original, FILE * encrypted, bmp * image, char option)
 
 void CBC (FILE * original, FILE * encrypted, bmp * image, char option)
 {
-	unsigned char x;
 	printf ("\n\nIntroduce the initialization vector separated by spaces:\t");
 	scanf ("%u %u %u", &pixel [0], &pixel [1], &pixel [2]);
 	for (i = 0; i < (image -> image_size); i ++)
