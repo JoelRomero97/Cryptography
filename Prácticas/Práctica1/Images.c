@@ -11,7 +11,10 @@ int main (int argc, char* argv[])
 	char * originalImage = (char *) malloc (sizeof (char));
 	system ("cls");
 	if (argc < 3)
+	{
 		printf("Error, missing arguments.\nExample: %s Image.bmp EncryptedImage.bmp\n\n", argv [0]);
+		exit (0);
+	}
 	else
 	{
 		originalImage = (char *) argv [1];
