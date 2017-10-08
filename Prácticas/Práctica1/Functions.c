@@ -4,7 +4,7 @@
 #include "Functions.h"
 
 int i, j;														//Global variables for loops
-unsigned char BGR [3], pixel [3], x;							//Arrays for reading and writing bmp images
+unsigned char BGR [3], pixel [3], aux [3], x;					//Arrays for reading and writing bmp images
 
 FILE * open_file (char * original, char * encrypted, int tipo)
 {
@@ -182,7 +182,6 @@ void ECB (FILE * original, FILE * encrypted, bmp * image, char option)
 
 void CBC (FILE * original, FILE * encrypted, bmp * image, char option)
 {
-	unsigned char aux [3];
 	printf ("\n\nIntroduce the initialization vector separated by spaces:\t");
 	scanf ("%u %u %u", &pixel [0], &pixel [1], &pixel [2]);
 	if (option == 'e')
@@ -225,7 +224,6 @@ void CBC (FILE * original, FILE * encrypted, bmp * image, char option)
 
 void CFB (FILE * original, FILE * encrypted, bmp * image, char option)
 {
-	unsigned char aux [3];
 	if (option == 'e')
 	{
 		printf ("\n\nIntroduce the initialization vector separated by spaces:\t");
@@ -268,7 +266,7 @@ void CFB (FILE * original, FILE * encrypted, bmp * image, char option)
 
 void OFB (FILE * original, FILE * encrypted, bmp * image, char option)
 {
-	unsigned char aux [3], aux2 [3];
+	unsigned char aux2 [3];
 	printf ("\n\nIntroduce the initialization vector separated by spaces:\t");
 	scanf ("%u %u %u", &pixel [0], &pixel [1], &pixel [2]);
 	hill ((unsigned char * ) pixel, (unsigned char * ) aux, 'e');
