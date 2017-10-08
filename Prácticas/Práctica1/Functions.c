@@ -222,6 +222,7 @@ void CFB (FILE * original, FILE * encrypted, bmp * image, char option)
 				pixel [j] = (aux [j] ^ BGR [j]);								//We realize XOR between pixel and BGR from Image
 			fwrite (&pixel, sizeof (char), 3, encrypted);
 		}
+		printf ("\n\n\nThe image was %s correctly.\n\n", message (option));
 	}else
 	{
 		printf ("\n\nIntroduce the initialization vector separated by spaces:\t");
@@ -240,12 +241,33 @@ void CFB (FILE * original, FILE * encrypted, bmp * image, char option)
 				pixel [j] = (aux [j] ^ BGR [j]);								//We realize XOR between pixel and BGR from Image
 			fwrite (&pixel, sizeof (char), 3, encrypted);
 		}
+		printf ("\n\n\nThe image was %s correctly.\n\n", message ('d'));
 	}
 }
 
 void OFB (FILE * original, FILE * encrypted, bmp * image, char option)
 {
-	//
+	unsigned char aux [3], aux2 [3];
+	printf ("\n\nIntroduce the initialization vector separated by spaces:\t");
+	scanf ("%u %u %u", &pixel [0], &pixel [1], &pixel [2]);
+	hill ((unsigned char * ) pixel, (unsigned char * ) aux, 'e');
+	for (i = 0; i < 3; i ++)
+		aux2 [i] = aux [i];
+	for (i = 0; i < (image -> image_size); i ++)
+	{
+		fread (&BGR, sizeof (char), 3, original);
+		/*
+		//DESCOMENTAR ESTA PARTE PARA QUE QUEDE EXACTAMENTE IGUAL QUE EN EL CUADERNO YA QUE LOS COLORES DE PIXELES LLEGAN B,G,R Y NO R,G,B
+		x = BGR [0];
+		BGR [0] = BGR [2];
+		BGR [2] = x;
+		*/
+		for (j = 0; j < 3; j ++)
+			pixel [j] = (aux2 [j] ^ BGR [j]);								//We realize XOR between pixel and BGR from Image
+		fwrite (&pixel, sizeof (char), 3, encrypted);
+		hill ((unsigned char * ) aux, (unsigned char * ) aux2, 'e');
+	}
+	printf ("\n\n\nThe image was %s correctly.\n\n", message (option));
 }
 
 void CTR (FILE * original, FILE * encrypted, bmp * image, char option)
