@@ -182,21 +182,43 @@ void ECB (FILE * original, FILE * encrypted, bmp * image, char option)
 
 void CBC (FILE * original, FILE * encrypted, bmp * image, char option)
 {
+	unsigned char aux [3];
 	printf ("\n\nIntroduce the initialization vector separated by spaces:\t");
 	scanf ("%u %u %u", &pixel [0], &pixel [1], &pixel [2]);
-	for (i = 0; i < (image -> image_size); i ++)
+	if (option == 'e')
 	{
-		fread (&BGR, sizeof (char), 3, original);
-		/*
-		//DESCOMENTAR ESTA PARTE PARA QUE QUEDE EXACTAMENTE IGUAL QUE EN EL CUADERNO YA QUE LOS COLORES DE PIXELES LLEGAN B,G,R Y NO R,G,B
-		x = BGR [0];
-		BGR [0] = BGR [2];
-		BGR [2] = x;
-		*/
-		for (j = 0; j < 3; j ++)
-			BGR [j] = (pixel [j] ^ BGR [j]);								//We realize XOR between pixel and BGR from Image
-		hill ((unsigned char * ) BGR, (unsigned char * ) pixel, option);
-		fwrite (&pixel, sizeof (char), 3, encrypted);
+		for (i = 0; i < (image -> image_size); i ++)
+		{
+			fread (&BGR, sizeof (char), 3, original);
+			/*
+			//DESCOMENTAR ESTA PARTE PARA QUE QUEDE EXACTAMENTE IGUAL QUE EN EL CUADERNO YA QUE LOS COLORES DE PIXELES LLEGAN B,G,R Y NO R,G,B
+			x = BGR [0];
+			BGR [0] = BGR [2];
+			BGR [2] = x;
+			*/
+			for (j = 0; j < 3; j ++)
+				BGR [j] = (pixel [j] ^ BGR [j]);								//We realize XOR between pixel and BGR from Image
+			hill ((unsigned char * ) BGR, (unsigned char * ) pixel, option);
+			fwrite (&pixel, sizeof (char), 3, encrypted);
+		}
+	}else
+	{
+		for (i = 0; i < (image -> image_size); i ++)
+		{
+			fread (&BGR, sizeof (char), 3, original);
+			/*
+			//DESCOMENTAR ESTA PARTE PARA QUE QUEDE EXACTAMENTE IGUAL QUE EN EL CUADERNO YA QUE LOS COLORES DE PIXELES LLEGAN B,G,R Y NO R,G,B
+			x = BGR [0];
+			BGR [0] = BGR [2];
+			BGR [2] = x;
+			*/
+			hill ((unsigned char * ) BGR, (unsigned char * ) aux, option);
+			for (j = 0; j < 3; j ++)
+				pixel [j] = (pixel [j] ^ aux [j]);								//We realize XOR between pixel and BGR from Image
+			fwrite (&pixel, sizeof (char), 3, encrypted);
+			for (j = 0; j < 3; j ++)
+				pixel [j] = BGR [j];
+		}
 	}
 	printf ("\n\n\nThe image was %s correctly.\n\n", message (option));
 }
@@ -222,7 +244,6 @@ void CFB (FILE * original, FILE * encrypted, bmp * image, char option)
 				pixel [j] = (aux [j] ^ BGR [j]);								//We realize XOR between pixel and BGR from Image
 			fwrite (&pixel, sizeof (char), 3, encrypted);
 		}
-		printf ("\n\n\nThe image was %s correctly.\n\n", message (option));
 	}else
 	{
 		printf ("\n\nIntroduce the initialization vector separated by spaces:\t");
@@ -241,8 +262,8 @@ void CFB (FILE * original, FILE * encrypted, bmp * image, char option)
 				pixel [j] = (aux [j] ^ BGR [j]);								//We realize XOR between pixel and BGR from Image
 			fwrite (&pixel, sizeof (char), 3, encrypted);
 		}
-		printf ("\n\n\nThe image was %s correctly.\n\n", message ('d'));
 	}
+	printf ("\n\n\nThe image was %s correctly.\n\n", message (option));
 }
 
 void OFB (FILE * original, FILE * encrypted, bmp * image, char option)
