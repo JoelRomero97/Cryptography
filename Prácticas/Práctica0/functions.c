@@ -12,10 +12,10 @@ void encrypt (int alpha, int beta)
 	char * message, * ciphertext = (char *) malloc (sizeof (char));
 	validateNumbers (alpha, beta);
 	message = readMessage ();										//Receiving the message to encrypt and save it in a dinamic array
-	printf("\nMessage to encrypt: %s\n\n", message);				//Print the message to know it is correct
+	printf("\nMesage to encrypt: %s\n\n", message);					//Print the message to know it is correct
 	for (i = 0; i < strlen (message); i ++)
 	{
-		value = message [i] - 97; 
+		value = message [i] - 97;
 		value *= alpha;												//Multiplying each letter by alpha
 		value += beta;												//Adding beta
 		value %= ALPHABET_SIZE;										//We get the value module alphabet's size
@@ -71,19 +71,42 @@ void decrypt (int alpha, int beta)
 {
 	char * ciphertext, * plainText = (char *) malloc (sizeof (char));
 	validateNumbers (alpha, beta);
-	int inverse = multiplicativeInverse (alpha);						//Obtain the multiplicative inverse for alpha
+	int inverse, aditive_inverse;
+	inverse = alg_euc_ext(alpha,beta);								//Obtaining the multiplicative inverse for alpha
+	aditive_inverse = inverse_aditive (beta);
 	ciphertext = readCiphertext ();									//Receiving the message to decrypt and save it in a dinamic array
 	printf("\nMessage to decrypt: %s\n\n", ciphertext);				//Print the message to know it is correct
 	for (i = 0; i < strlen (ciphertext); i ++)
 	{
 		value = ciphertext [i] - 65;
 		value *= inverse;											//Multiplying each letter by multiplicative inverse of alpha
-		value += (ALPHABET_SIZE - beta) * inverse;					//Adding the aditive inverse of beta
+		value += (aditive_inverse * inverse);						//Adding the aditive inverse of beta
 		value %= ALPHABET_SIZE;										//We get the value module alphabet's size
 		plainText [i] = value + 97;									//We save each decrypted letter in a dinamic array
 	}
 	plainText [i] = '\0';											//We add null character to avoid trash on the array
 	printf("\nDecrypted message:'%s'\n\n\n", plainText);			//Finally, we show the original message to the user
+}
+
+int inverse_aditive (int beta)
+{
+	for (i = 1; i < ALPHABET_SIZE; i ++)
+	{
+		if ((i + beta) % ALPHABET_SIZE == 0)
+			return i;
+	}
+}
+
+int multiplicativeInverse (int alpha)
+{
+	int x, inverse;
+	printf("\n\nMultiplicative Inverse:\n\n");
+	for(inverse = 0; inverse < ALPHABET_SIZE; inverse++)
+    {
+        x = (alpha * inverse) % ALPHABET_SIZE;
+        if(x == 1)
+            return inverse;
+    }
 }
 
 char * readCiphertext ()
@@ -116,29 +139,43 @@ char * readCiphertext ()
 	return msgToDecrypt;											//Return the encrypted message to decrypt from file
 }
 
-/*int multiplicativeInverse (int alpha)
+int alg_euc_ext (int n1,int n2)
 {
-	int x, inverse;
-	printf("\n\nMultiplicative Inverse:\n\n");
-	for(inverse = 0; inverse < ALPHABET_SIZE; inverse++)
-    {
-        x = (alpha * inverse) % ALPHABET_SIZE;
-        //printf("1 = %d - (%d * %d)\n", alpha, (ALPHABET_SIZE/alpha), inverse);
-        if(x == 1)
-            return inverse;
+    int array[3],x=0,y=0,d=0,x2 = 1,x1 = 0,y2 = 0,y1 = 1,q = 0, r = 0;
+    int flag=1;
+		int aux;
+		int in=n1;
+    if(n2==0){
+        array[0]=n1;
+        array[1]=1;
+        array[2]=0;
     }
-}*/
+    else{
+        while(n2>0){
+            q = (n1/n2);
+            r = n1 - q*n2;
+            x = x2-q*x1;
+            y = y2 - q*y1;
+            n1 = n2;
+            n2 = r;
+            x2 = x1;
+            x1 = x;
+            y2 = y1;
+            y1 = y;
+						if(flag%2 != 0){
+						printf("%d = %d(%d) + %d        ||   1 = %d(%d) - %d(%d)  \n",n1*q+r,n1,q,r,x1,y2,x2,y1 );
+						}else{
+						printf("%d = %d(%d) + %d        ||   1 = %d(%d) - %d(%d)  \n",n1*q+r,n1,q,r,x2,y1,x1,y2 );
+					}
+					flag++;
+				}
+        array[0] = n1;
+        array[1] = x2;
+        array[2] = y2;
+    }
 
-int multiplicativeInverse (int alpha)
-{
-	int x, inverse;
-	printf("\n\nMultiplicative Inverse:\n\n");
-	for(inverse = 0; inverse < ALPHABET_SIZE; inverse++)
-    {
-        x = (alpha * inverse) % ALPHABET_SIZE;
-        if(x == 1)
-            return inverse;
-    }
+		aux = multiplicativeInverse(in);
+    return aux;
 }
 
 //SHARED ENCRYPTION/DECRYPTION FUNCTIONS

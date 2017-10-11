@@ -6,10 +6,11 @@ void writeCiphertext (char * ciphertext);
 //Decryption functions
 void decrypt (int alpha, int beta);
 char * readCiphertext ();
-int multiplicativeInverse (int alpha);
+int alg_euc_ext(int n1,int n2);
 
 //Shared encryption/decryption functions
 void menu ();
 void validateNumbers (int alpha, int beta);
 int gcd (int alpha, int alphabet);
-int alg_euc_ext(int n1,int n2);
+int multiplicativeInverse (int alpha);
+int inverse_aditive (int beta);
