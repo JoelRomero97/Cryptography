@@ -2,6 +2,21 @@
 #include <stdlib.h>
 #include "Functions.c"
 
+////////////////////////////////////////////////////////////////////////////////////////
+////									Images.c 									////
+////																				////
+////																				////
+//// HILL Cipher, es un cifrador por bloques, que puede servir tanto para mensajes 	////
+//// de texto como imágenes, en este caso, se implementa para cifrar imágenes BMP 	////
+//// pixel a pixel, con 6 distintos modos de operación, para cada uno de estos, 	////
+//// existe una llave de cifrado Ek y una de descifrado Dk.							////
+//// Para ejecutar, escribir el nombre del ejecutable seguido de la imagen a cifrar ////
+//// o descifrar y por último el nombre de la imagen que se obtendrá a la salida.	////
+////																				////
+////																				////
+//// Autor: Romero Gamarra Joel Mauricio											////
+////////////////////////////////////////////////////////////////////////////////////////
+
 int main (int argc, char* argv[])
 {	
 	FILE * original, * encrypted;
