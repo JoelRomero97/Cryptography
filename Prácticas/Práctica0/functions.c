@@ -100,7 +100,6 @@ int inverse_aditive (int beta)
 int multiplicativeInverse (int alpha)
 {
 	int x, inverse;
-	printf("\n\nMultiplicative Inverse:\n\n");
 	for(inverse = 0; inverse < ALPHABET_SIZE; inverse++)
     {
         x = (alpha * inverse) % ALPHABET_SIZE;
