@@ -1,7 +1,11 @@
 # HILL Cipher
 
-Hill, was the first cipher that uses algebraic methods (matrix operations) for encryption and decryption using a mxm matrix for encryption called Ek and the inverse of it for decryption called Dk.
-In this case, we use images BMP applying some Modes of Operations.
+Hill was the first cipher that uses algebraic methods (matrix operations) for encryption and decryption using a mxm matrix for encryption called Ek and the inverse of it for decryption called Dk.
+In this case, we use images BMP applying these Modes of Operations:
+- Electronic Codebook
+- Cipher Block Chaining
+- Cipher Feedback
+- Output Feedback
 
 # Encryption
 
