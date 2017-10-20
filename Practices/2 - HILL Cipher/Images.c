@@ -29,8 +29,7 @@ int main (int argc, char* argv[])
 	{
 		printf("Error, missing arguments.\nExample: %s Image.bmp EncryptedImage.bmp\n\n", argv [0]);
 		exit (0);
-	}
-	else
+	}else
 	{
 		originalImage = (char *) argv [1];
 		encryptedImage = (char *) argv [2];
