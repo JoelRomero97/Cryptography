@@ -4,17 +4,21 @@ Classical cipher for encrypting and decrypting messages using 2 parameters (alph
 
 # Encryption
 
-Write the message you want to encrypt on "m.txt" file
-Compile and run the program selecting option 2 and giving it values for alpha and beta
-The encrypted message is in "c.txt" file
+- Write the message you want to encrypt on "plaintext.txt" file
+- Compilation: gcc Affine.c -o Affine
+- Execution: Affine.exe
+- Select option 1
+- Give a value for alpha (multiplicative value) and beta (additive value)
+- Check the encrypted message on "ciphered.txt"
 
 # Decryption
 
-Compile and run the program selecting option 2 giving it the same values for alpha and beta you use for encryption
-The original message will be written on the console
+- Compilation: gcc Affine.c -o Affine
+- Execution: Affine.exe
+- Select option 2
+- Give the same values for alpha and beta you use to encrypt the message
+- The original message will be written on the console
 
-
-
-# Author
+# Autor
 
 Joel Mauricio Romero Gamarra
