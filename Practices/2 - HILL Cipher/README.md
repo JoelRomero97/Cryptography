@@ -9,23 +9,21 @@ In this case, we use images BMP applying these Modes of Operations:
 
 # Encryption
 
-Compile the program: gcc Images.c -o Images
-Execute the program: Images.exe Original_Image.bmp Encrypted_Image.bmp
-Select option 1
-Select one mode of operation
-If Mode of Operation is not ECB, introduce an Initialization Vector. 
-
-Example: 9 99 11
+- Compilation: gcc Images.c -o Images
+- Execution: Images.exe Original_Image.bmp Encrypted_Image.bmp
+- Select option 1
+- Select one mode of operation
+- If Mode of Operation is not ECB, introduce an Initialization Vector
+  - Example: 9 99 11
 
 # Decryption
 
-Compile the program: gcc Images.c -o Images
-Execute the program: Images.exe Encrypted_Image.bmp Decrypted_Image.bmp
-Select option 2
-Select one mode of operation
-If Mode of Operation is not ECB, introduce an Initialization Vector. 
-
-Example: 9 99 11
+- Compilation: gcc Images.c -o Images
+- Execution: Images.exe Encrypted_Image.bmp Decrypted_Image.bmp
+- Select option 2
+- Select one mode of operation
+- If Mode of Operation is not ECB, introduce an Initialization Vector.
+  - Example: 9 99 11
 
 
 # Author
