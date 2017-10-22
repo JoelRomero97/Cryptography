@@ -30,11 +30,11 @@ char * readMessage ()
 	FILE * message;													//Pointer for read the file
 	char c, * msgToEncrypt = (char *) malloc (sizeof (char));
 	i = 0;
-	message = fopen ("m.txt", "r");									//Opening the file in reading mode
+	message = fopen ("plaintext.txt", "r");							//Opening the file in reading mode
 	if (message == NULL)
-		printf("Error while opening file: 'm.txt'.\n");
+		printf("Error while opening file: 'plaintext.txt'.\n");
 	else
-		printf("File 'm.txt' opened correctly.\n");
+		printf("File 'plaintext.txt' opened correctly.\n");
 	c = fgetc (message);											//Reading the first character
 	while (c != EOF)												//While it's not the end of the file
 	{
@@ -58,9 +58,9 @@ char * readMessage ()
 void writeCiphertext (char * ciphertext)
 {
 	FILE * encryptedMessage;										//Pointer for writing in the file
-	encryptedMessage = fopen ("c.txt", "w");						//Opening the file in writing/overwriting mode
+	encryptedMessage = fopen ("ciphered.txt", "w");					//Opening the file in writing/overwriting mode
 	if (encryptedMessage == NULL)
-		printf("Error while creating file: 'c.txt'\n");
+		printf("Error while creating file: 'ciphered.txt'\n");
 	fprintf(encryptedMessage, "%s", ciphertext);					//Writing the encryped message on the file as a string
 	printf("File encrypted succesfully.\n\n\n");
 	fclose (encryptedMessage);										//We close the file after reading it
@@ -113,11 +113,11 @@ char * readCiphertext ()
 	FILE * message;													//Pointer for read the file
 	char c, * msgToDecrypt = (char *) malloc (sizeof (char));
 	i = 0;
-	message = fopen ("c.txt", "r");									//Opening the file in reading mode
+	message = fopen ("ciphered.txt", "r");									//Opening the file in reading mode
 	if (message == NULL)
-		printf("Error while opening file: 'c.txt'.\n");
+		printf("Error while opening file: 'ciphered.txt'.\n");
 	else
-		printf("File 'c.txt' opened correctly.\n");
+		printf("File 'ciphered.txt' opened correctly.\n");
 	c = fgetc (message);											//Reading the first character
 	while (c != EOF)												//While it's not the end of the file
 	{
