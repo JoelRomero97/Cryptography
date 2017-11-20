@@ -18,7 +18,7 @@ In this case, we use images BMP applying these Modes of Operations:
 
 # Decryption
 
-- Compilation: gcc Images.c -o Images
+- Compilation: gcc Images.c -o Images 
 - Execution: Images.exe Encrypted_Image.bmp Decrypted_Image.bmp
 - Select option 2
 - Select one mode of operation
