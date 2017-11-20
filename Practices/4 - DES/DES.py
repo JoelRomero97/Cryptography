@@ -22,6 +22,7 @@ def main ():
     #Calling the selected mode of operation
     modos_operacion [mode] (original, cipher, option)
 
+
 #Electronic Codebook
 def ECB (original, ciphered, option):
 
@@ -42,15 +43,13 @@ def ECB (original, ciphered, option):
     #Obtaining the size of the image
     original_file.seek (34)
     size = int.from_bytes (original_file.read (4), byteorder = 'little')
-    print ("\nTamaño de imagen: ", size)
 
     #We move to the start of the real image to encrypt it
     original_file.seek (54)
 
-    #Loop for reading the image
     i = 0
     
-    #Cifrar
+    #Encrypt
     if option == 1:
         while (i < size):
             #Reading 8 bytes to encrypt it using DES cipher
@@ -64,8 +63,9 @@ def ECB (original, ciphered, option):
 
             #Updating the counter
             i = i + 8
+        print ("\n\n", original, "was encrypted correctly using Electronic Codebook Mode")
 
-    #Descifrar
+    #Decrypt
     elif option == 2:
         while (i < size):
             #Reading 8 bytes to decrypt it using DES cipher
@@ -79,58 +79,140 @@ def ECB (original, ciphered, option):
 
             #Updating the counter
             i = i + 8
+        print ("\n\n", original, "was decrypted correctly using Electronic Codebook Mode")
 
     original_file.close ()
     encrypted_file.close ()
-        
 
 
-def CBC(original,ciphered,option):
-    print ("DES in CBC mode\n")
-    IV = "9999"
-    cipher = DES.new('12345678',DES.MODE_CBC,IV)
+#Cipher Block Chaining
+def CBC (original, ciphered, option):
+    
+    #Asking for the key to the user (8 bytes)
+    key = bytes (input ('Introduce the key: '), 'utf-8')
 
-    #Cifrar
+    #Asking for the initialization vector to the user (8 bytes)
+    IV = bytes (input ('Introduce the initialization vector: '), 'utf-8')
+
+    #Creating a new DES cipher
+    cipher = DES.new (key, DES.MODE_CBC, IV)
+
+    #Opening both files
+    original_file = open (original, "rb")
+    encrypted_file = open (ciphered, "wb")
+
+    #We copy the entire head of the image
+    data = original_file.read (54)
+    encrypted_file.write (data)
+
+    #Obtaining the size of the image
+    original_file.seek (34)
+    size = int.from_bytes (original_file.read (4), byteorder = 'little')
+
+    #We move to the start of the real image to encrypt it
+    original_file.seek (54)
+    
+    i = 0
+
+    #Encrypt
     if option == 1:
-        file = open(original,"rb")
-        data = file.read()
-        file.close()
-        cipher.encrypt(data)
-        ciphered = open(ciphered,"wb")
-        ciphered.write(data)
-        ciphered.close()
+        while (i < size):
+            #Reading 8 bytes to encrypt it using DES cipher
+            pixels = original_file.read (8)
 
-    #Descifrar
+            #Encrypting 8 bytes readed
+            encrypted_pixels = cipher.encrypt (pixels)
+
+            #Writing encrypted pixels
+            encrypted_file.write (encrypted_pixels)
+
+            #Updating the counter
+            i = i + 8
+        print ("\n\n", original, "was encrypted correctly using Cipher Block Chaining Mode")
+
+    #Decrypt
     elif option == 2:
-        file = open(original,"rb")
-        data = file.read()
-        file.close()
-        cipher.decrypt(data)
-        ciphered = open(ciphered,"wb")
-        ciphered.write(data)
-        ciphered.close()
-        
+        while (i < size):
+            #Reading 8 bytes to decrypt it using DES cipher
+            pixels = original_file.read (8)
 
-def CFB(original,ciphered,option):
-    print ("DES in CBF mode")
-    IV = "9999"
-    cipher = DES.new('12345678',DES.MODE_CFB,IV)
+            #Encrypting 8 bytes readed
+            encrypted_pixels = cipher.decrypt (pixels)
+
+            #Writing decrypted pixels
+            encrypted_file.write (encrypted_pixels)
+
+            #Updating the counter
+            i = i + 8
+        print ("\n\n", original, "was decrypted correctly using Cipher Block Chaining Mode")
+
+    original_file.close ()
+    encrypted_file.close ()
+
+
+#Cipher Feedback
+def CFB (original, ciphered, option):
+    
+    #Asking for the key to the user (8 bytes)
+    key = bytes (input ('Introduce the key: '), 'utf-8')
+
+    #Asking for the initialization vector to the user (8 bytes)
+    IV = bytes (input ('Introduce the initialization vector: '), 'utf-8')
+
+    #Creating a new DES cipher
+    cipher = DES.new (key, DES.MODE_CFB, IV)
+
+    #Opening both files
+    original_file = open (original, "rb")
+    encrypted_file = open (ciphered, "wb")
+
+    #We copy the entire head of the image
+    data = original_file.read (54)
+    encrypted_file.write (data)
+
+    #Obtaining the size of the image
+    original_file.seek (34)
+    size = int.from_bytes (original_file.read (4), byteorder = 'little')
+
+    #We move to the start of the real image to encrypt it
+    original_file.seek (54)
+    
+    i = 0
+
+    #Encrypt
     if option == 1:
-        file = open(original,"rb")
-        data = file.read()
-        file.close()
-        cipher.encrypt(data)
-        ciphered = open(ciphered,"wb")
-        ciphered.write(data)
-        ciphered.close()
+        while (i < size):
+            #Reading 8 bytes to encrypt it using DES cipher
+            pixels = original_file.read (8)
+
+            #Encrypting 8 bytes readed
+            encrypted_pixels = cipher.encrypt (pixels)
+
+            #Writing encrypted pixels
+            encrypted_file.write (encrypted_pixels)
+
+            #Updating the counter
+            i = i + 8
+        print ("\n\n", original, "was encrypted correctly using Cipher Feedback Mode")
+
+    #Decrypt
     elif option == 2:
-        file = open(original,"rb")
-        data = file.read()
-        file.close()
-        cipher.decrypt(data)
-        ciphered = open(ciphered,"wb")
-        ciphered.write(data)
-        ciphered.close()
+        while (i < size):
+            #Reading 8 bytes to decrypt it using DES cipher
+            pixels = original_file.read (8)
+
+            #Encrypting 8 bytes readed
+            encrypted_pixels = cipher.decrypt (pixels)
+
+            #Writing decrypted pixels
+            encrypted_file.write (encrypted_pixels)
+
+            #Updating the counter
+            i = i + 8
+        print ("\n\n", original, "was decrypted correctly using Cipher Feedback Mode")
+
+    original_file.close ()
+    encrypted_file.close ()
 
 
 def OFB(original,ciphered,option):
