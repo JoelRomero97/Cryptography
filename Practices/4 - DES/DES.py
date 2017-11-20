@@ -1,5 +1,6 @@
 import os
 from Crypto.Cipher import DES
+from Crypto.Util import Counter
 
 def main ():
     os.system ("cls")
@@ -287,7 +288,8 @@ def CTR(original,ciphered,option):
     key = bytes (input ('Introduce the key: '), 'utf-8')
 
     #Creating a new DES cipher
-    cipher = DES.new (key, DES.MODE_CTR)
+    ctr = Counter.new (64)
+    cipher = DES.new (key, DES.MODE_CTR, counter = ctr)
 
     #Opening both files
     original_file = open (original, "rb")
