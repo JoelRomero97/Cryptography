@@ -1,57 +1,87 @@
 import os
 from Crypto.Cipher import DES
-from PIL import Image
-import numpy as np
-import matplotlib.pyplot as plt
 
 def main ():
     os.system ("cls")
     
-    #Definimos las funciones de los modos de operacion
+    #We define the functions (modes of operation) inside a dictionary
     modos_operacion = {1: ECB, 2: CBC, 3: CFB, 4: OFB, 5: CTR}
     
-    #Menu para el usuario
+    #Menu to the user
     original = input ("\nEnter the name of the original image: ")
     cipher = input ("\nEnter the name of the encrypted image: ")
     option = int (input ("\nSelect an option\n\n1.Enrypt\n2.Decrypt\n\n"))
     print ("\n\nWhich mode of operation do you want?\n\n")
-    print ("1. Electronic Codebook (ECB)\n")
-    print ("2. Cipher Block Chaining (CBC)\n")
-    print ("3. Cipher Feedback (CFB)\n")
-    print ("4. Output Feedback (OFB)\n")
-    print ("5. Counter (CTR)\n")
+    print ("1. Electronic Codebook (ECB)")
+    print ("2. Cipher Block Chaining (CBC)")
+    print ("3. Cipher Feedback (CFB)")
+    print ("4. Output Feedback (OFB)")
+    print ("5. Counter (CTR)")
     mode = int (input ("\n"))
 
-    #Llamamos a la función seleccionada
+    #Calling the selected mode of operation
     modos_operacion [mode] (original, cipher, option)
 
 #Electronic Codebook
 def ECB (original, ciphered, option):
-    
-    print ("DES in ECB mode\n")
 
-    #Pedimos la llave de 8 bytes al usuario
-    key = bytes (input ('Ingresa la llave: '), 'utf-8')
+    #Asking for the key to the user (8 bytes)
+    key = bytes (input ('Introduce the key: '), 'utf-8')
+
+    #Creating a new DES cipher
     cipher = DES.new (key, DES.MODE_ECB)
 
-    #Abrimos los archivos correspondientes
+    #Opening both files
     original_file = open (original, "rb")
     encrypted_file = open (ciphered, "wb")
+
+    #We copy the entire head of the image
+    data = original_file.read (54)
+    encrypted_file.write (data)
+
+    #Obtaining the size of the image
+    original_file.seek (34)
+    size = int.from_bytes (original_file.read (4), byteorder = 'little')
+    print ("\nTamaño de imagen: ", size)
+
+    #We move to the start of the real image to encrypt it
+    original_file.seek (54)
+
+    #Loop for reading the image
+    i = 0
     
     #Cifrar
     if option == 1:
-        data = original_file.read ()
-        original_file.close ()
-        encrypted_file.write (data)
+        while (i < size):
+            #Reading 8 bytes to encrypt it using DES cipher
+            pixels = original_file.read (8)
+
+            #Encrypting 8 bytes readed
+            encrypted_pixels = cipher.encrypt (pixels)
+
+            #Writing encrypted pixels
+            encrypted_file.write (encrypted_pixels)
+
+            #Updating the counter
+            i = i + 8
 
     #Descifrar
     elif option == 2:
-        original_file = open(original,"rb")
-        data = original_file.read()
-        original_file.close()
-        cipher.decrypt(data)
-        encrypted_file.write(data)
-        encrypted_file.close()
+        while (i < size):
+            #Reading 8 bytes to decrypt it using DES cipher
+            pixels = original_file.read (8)
+
+            #Encrypting 8 bytes readed
+            encrypted_pixels = cipher.decrypt (pixels)
+
+            #Writing decrypted pixels
+            encrypted_file.write (encrypted_pixels)
+
+            #Updating the counter
+            i = i + 8
+
+    original_file.close ()
+    encrypted_file.close ()
         
 
 
