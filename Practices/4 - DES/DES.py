@@ -282,23 +282,64 @@ def OFB(original,ciphered,option):
 
 #Counter
 def CTR(original,ciphered,option):
-    print ("DES in CTR mode")
-    cipher = DES.new('12345678',DES.MODE_CTR)
-    if option == 1:
-        file = open(original,"rb")
-        data = file.read()
-        file.close()
-        cipher.encrypt(data)
-        ciphered = open(ciphered,"wb")
-        ciphered.write(data)
-        ciphered.close()
-    elif option == 2:
-        file = open(original,"rb")
-        data = file.read()
-        file.close()
-        cipher.decrypt(data)
-        ciphered = open(ciphered,"wb")
-        ciphered.write(data)
-        ciphered.close()
 
-main()
+    #Asking for the key to the user (8 bytes)
+    key = bytes (input ('Introduce the key: '), 'utf-8')
+
+    #Creating a new DES cipher
+    cipher = DES.new (key, DES.MODE_CTR)
+
+    #Opening both files
+    original_file = open (original, "rb")
+    encrypted_file = open (ciphered, "wb")
+
+    #We copy the entire head of the image
+    data = original_file.read (54)
+    encrypted_file.write (data)
+
+    #Obtaining the size of the image
+    original_file.seek (34)
+    size = int.from_bytes (original_file.read (4), byteorder = 'little')
+
+    #We move to the start of the real image to encrypt it
+    original_file.seek (54)
+
+    i = 0
+    
+    #Encrypt
+    if option == 1:
+        while (i < size):
+            #Reading 8 bytes to encrypt it using DES cipher
+            pixels = original_file.read (8)
+
+            #Encrypting 8 bytes readed
+            encrypted_pixels = cipher.encrypt (pixels)
+
+            #Writing encrypted pixels
+            encrypted_file.write (encrypted_pixels)
+
+            #Updating the counter
+            i = i + 8
+        print ("\n\n", original, "was encrypted correctly using Counter Mode")
+
+    #Decrypt
+    elif option == 2:
+        while (i < size):
+            #Reading 8 bytes to decrypt it using DES cipher
+            pixels = original_file.read (8)
+
+            #Encrypting 8 bytes readed
+            encrypted_pixels = cipher.decrypt (pixels)
+
+            #Writing decrypted pixels
+            encrypted_file.write (encrypted_pixels)
+
+            #Updating the counter
+            i = i + 8
+        print ("\n\n", original, "was decrypted correctly using Counter Mode")
+
+    original_file.close ()
+    encrypted_file.close ()
+
+#Main function
+main ()
