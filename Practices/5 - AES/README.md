@@ -1,6 +1,6 @@
-# DES
+# AES
 
-Data Encryption Standard (DES) is one of the most known ciphers with a security of 64 bits (the security of a cipher is given by the length of the key to avoid a brute force).
+Advanced Encryption Standard (AES) is one of the most known and safest ciphers with a security of 128 bits (the security of a cipher is given by the length of the key to avoid a brute force).
 
 In this practice, we implement this cipher in Python with the next 5 different modes of operation for BMP images:
 
