@@ -288,7 +288,7 @@ def CTR(original,ciphered,option):
     key = bytes (input ('Introduce the key: '), 'utf-8')
 
     #Creating a new AES cipher
-    ctr = Counter.new (64)
+    ctr = Counter.new (128)
     cipher = AES.new (key, AES.MODE_CTR, counter = ctr)
 
     #Opening both files
