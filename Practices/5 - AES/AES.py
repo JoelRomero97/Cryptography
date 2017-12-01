@@ -2,6 +2,18 @@ import os
 from Crypto.Cipher import AES
 from Crypto.Util import Counter
 
+########################################################################################
+####                                    AES.py                                      ####
+####                                                                                ####
+####                                                                                ####
+#### Implementation of Advanced Encryption Standard (AES) for BMP images with 5     ####
+#### different modes of operation.                                                  ####
+#### Restrictions:                                                                  ####
+#### - Image.bmp size must be multiple of 16 (128 bits)                             ####
+####                                                                                ####
+#### Author: Romero Gamarra Joel Mauricio                                           ####
+########################################################################################
+
 def main ():
     os.system ("cls")
     
