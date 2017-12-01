@@ -1,6 +1,17 @@
 import os
 from Crypto.Hash import SHA
 
+########################################################################################
+####                                    SHA.py                                      ####
+####                                                                                ####
+####                                                                                ####
+#### Implementation of a cryptographic function that produces a message digest, so, ####
+#### you cannot decrypt it.                                                         ####
+#### Modify: Message.txt                                                            ####
+####                                                                                ####
+#### Author: Romero Gamarra Joel Mauricio                                           ####
+########################################################################################
+
 def main ():
     os.system ("cls")
     

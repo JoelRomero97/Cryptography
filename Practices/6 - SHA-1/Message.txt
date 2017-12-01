@@ -1,1 +1,1 @@
-This is a simple message to test the program
+Testing the program with this message
