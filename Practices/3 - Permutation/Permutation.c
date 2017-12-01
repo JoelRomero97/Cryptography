@@ -2,6 +2,19 @@
 #include <stdlib.h>
 #include <string.h>
 
+////////////////////////////////////////////////////////////////////////////////////////
+////								Permutation.c 									////
+////																				////
+////																				////
+//// This is the first part of Data Encryption Standard (DES) cipher, Initial 		////
+//// Permutation, or IP, that mixes bit by bit the message (8 characters). In this 	////
+//// case, it must be a 4 - character message because this positions are not the 	////
+//// ones that DES uses.															////
+////																				////
+////																				////
+//// Autor: Romero Gamarra Joel Mauricio											////
+////////////////////////////////////////////////////////////////////////////////////////
+
 int main (int argc, char const * argv [])
 {
 	unsigned char mensaje [4], revuelto [4], nuevo [4], i;

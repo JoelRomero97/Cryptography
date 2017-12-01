@@ -6,12 +6,10 @@
 ////									Images.c 									////
 ////																				////
 ////																				////
-//// HILL Cipher, es un cifrador por bloques, que puede servir tanto para mensajes 	////
-//// de texto como imágenes, en este caso, se implementa para cifrar imágenes BMP 	////
-//// pixel a pixel, con 6 distintos modos de operación, para cada uno de estos, 	////
-//// existe una llave de cifrado Ek y una de descifrado Dk.							////
-//// Para ejecutar, escribir el nombre del ejecutable seguido de la imagen a cifrar ////
-//// o descifrar y por último el nombre de la imagen que se obtendrá a la salida.	////
+//// HILL Cipher, is a block cipher that can encrypt/decrypt plaintext messages, 	////
+//// images, etc. In this case, I implemented for encrypting and decrypting BMP 	////
+//// images pixel by pixel with 5 different modes of operation, for each one, 		////
+//// exists a ciphering key Ek and a deciphering key DK.							////
 ////																				////
 ////																				////
 //// Autor: Romero Gamarra Joel Mauricio											////
