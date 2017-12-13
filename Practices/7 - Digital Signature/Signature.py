@@ -100,6 +100,25 @@ def sign_message (message, digital_signature, length, receiver):
 	file.write (digital_signature)
 	file.close ()
 
+def obtain_signature (message):
+	file = open (message, "r")
+	data = file.readline ()
+	length = int (file.readline ())
+	signature = file.readline ()
+	file.close ()
+	return signature
+
+def decrypt_signature (digital_signature, public_key):
+	cipher = PKCS1_OAEP.new (public_key)
+	sign = cipher.decrypt (digital_signature)
+	return sign
+
+def obtain_text (message):
+	file = open (message, "r")
+	plaintext = file.readline ()
+	file.close ()
+	return plaintext
+
 def main ():
 	os.system ("cls")
 	transmitter = input ('¿Who are you? (Write your name)\n\n')
@@ -126,6 +145,20 @@ def main ():
 	elif option == '2':
 		receiver = transmitter;
 		private_key = obtain_private_key (receiver)
+		transmitter = input ('¿Who send you the message? (Write his/her name)\n\n')
+		message = input ("\nIntroduce the name of the file that contains the encrypted message: ")
+		digital_signature = obtain_signature (message)
+		public_key = obtain_public_key (transmitter)
+		digesto = decrypt_signature (digital_signature, public_key)
+		plaintext = obtain_text (message)
+		dig = SHA.new ()
+		dig.update (plaintext)
+		plaintext = bytes (dig.hexdigest (), 'utf-8')
+		print ("\n\n")
+		print (digesto)
+		print ("\n\n")
+		print (plaintext)
+
 	else:
 		print ("\n\nIncorrect option.\n")
 		quit ()
