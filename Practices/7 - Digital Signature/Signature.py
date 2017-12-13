@@ -79,6 +79,26 @@ def sign (private_key, digesto):
 
 def sign_message (message, digital_signature, length, receiver):
 	public_key = obtain_public_key (receiver)
+	file = open (message, "r")
+	data = file.read ()
+	file.close ()
+	cipher = PKCS1_OAEP.new (public_key)
+	encrypted = cipher.encrypt (bytes (data, 'utf-8'))
+	name = message.rstrip ('.txt')
+	name = name + "_encrypted.txt"
+	file = open (name, "w")
+	encrypted = str (encrypted)
+	encrypted = encrypted.rstrip ('\'')
+	encrypted = encrypted.lstrip ('b\'')
+	file.write (encrypted)
+	file.write ("\n")
+	file.write (str (length))
+	file.write ("\n")
+	digital_signature = str (digital_signature)
+	digital_signature = digital_signature.rstrip ('\'')
+	digital_signature = digital_signature.lstrip ('b\'')
+	file.write (digital_signature)
+	file.close ()
 
 def main ():
 	os.system ("cls")
